@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaE ProjectorTally", "HaE ProjectorTally\HaE ProjectorTally.csproj", "{69E1420E-C00B-4843-A860-A4DED9D4D7A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69E1420E-C00B-4843-A860-A4DED9D4D7A3}.Debug|x64.ActiveCfg = Debug|x64
+		{69E1420E-C00B-4843-A860-A4DED9D4D7A3}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1C65009-3FCE-4286-A77C-113DC1E778C9}
+	EndGlobalSection
+EndGlobal
