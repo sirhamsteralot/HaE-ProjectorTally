@@ -23,11 +23,18 @@ namespace IngameScript
         IMyProjector projector;
         Dictionary<string, int> componentsByType = new Dictionary<string, int>();
         BlockDefinitions blockDefinitions;
+        StringBuilder sb = new StringBuilder();
+        Action<string> originalEcho;
+
+        IEnumerator<bool> enumerator;
 
         public Program()
         {
             projector = GridTerminalSystem.GetBlockWithName("Projector") as IMyProjector;
             blockDefinitions = new BlockDefinitions();
+
+            originalEcho = Echo;
+            Echo = EchoOL;
         }
 
         public void Save()
@@ -37,15 +44,70 @@ namespace IngameScript
 
         public void Main(string argument, UpdateType updateSource)
         {
-            foreach (var block in projector.RemainingBlocksPerType)
+            if (argument == "Start")
             {
-                var def = blockDefinitions.GetDefinition(block.Key.ToString());
+                componentsByType.Clear();
+                sb.Clear();
 
-                foreach(var component in def.components)
+                enumerator = Logic();
+                Runtime.UpdateFrequency = UpdateFrequency.Update1;
+                return;
+            }
+            
+            if (enumerator != null)
+            {
+                if (!enumerator.MoveNext())
                 {
-                    componentsByType[component.Item1] += component.Item2;
+                    enumerator.Dispose();
+                    enumerator = null;
                 }
             }
+
+        }
+        
+        public void EchoOL(string text)
+        {
+            Me.GetSurface(0).WriteText(text);
+            originalEcho(text);
+        }
+
+        public IEnumerator<bool> Logic()
+        {
+            int currentStep = 1;
+
+            foreach (var block in projector.RemainingBlocksPerType)
+            {
+
+                string key = block.Key.ToString();
+                var def = blockDefinitions.GetDefinition(key);
+
+                foreach (var component in def.components)
+                {
+                    if (!componentsByType.ContainsKey(component.Item1))
+                        componentsByType.Add(component.Item1, 0);
+
+                    componentsByType[component.Item1] += component.Item2 * block.Value;
+                }
+
+                Echo($"converting blocks...\nStep{currentStep.ToString().PadRight(5).Substring(0, 5)} out of {projector.RemainingBlocksPerType.Count}");
+
+                currentStep++;
+
+                yield return true;
+            }
+
+            yield return true;
+
+            Echo("Echoing data...");
+
+            foreach (var component in componentsByType)
+            {
+                sb.Append(component.Key).Append(" : ").AppendLine(component.Value.ToString());
+            }
+
+            Me.CustomData = sb.ToString();
+
+            Runtime.UpdateFrequency = UpdateFrequency.None;
         }
     }
 }
