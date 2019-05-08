@@ -30,7 +30,7 @@ namespace IngameScript
 
         public Program()
         {
-            projector = GridTerminalSystem.GetBlockWithName("Projector") as IMyProjector;
+            projector = GridTerminalSystem.GetBlockWithName("TallyProjector") as IMyProjector;
             blockDefinitions = new BlockDefinitions();
 
             originalEcho = Echo;
@@ -83,10 +83,10 @@ namespace IngameScript
 
                 foreach (var component in def.components)
                 {
-                    if (!componentsByType.ContainsKey(component.Item1))
-                        componentsByType.Add(component.Item1, 0);
+                    if (!componentsByType.ContainsKey(component.id))
+                        componentsByType.Add(component.id, 0);
 
-                    componentsByType[component.Item1] += component.Item2 * block.Value;
+                    componentsByType[component.id] += component.count * block.Value;
                 }
 
                 Echo($"converting blocks...\nStep{currentStep.ToString().PadRight(5).Substring(0, 5)} out of {projector.RemainingBlocksPerType.Count}");
