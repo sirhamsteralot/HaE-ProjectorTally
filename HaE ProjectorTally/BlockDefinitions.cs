@@ -373,7 +373,7 @@ namespace IngameScript
             {
                 public Component[] components;
 
-                public string GetFullItemName(string key)
+                public string GetFullComponentName(string key)
                 {
                     return "MyObjectBuilder_Component/" + key;
                 }
