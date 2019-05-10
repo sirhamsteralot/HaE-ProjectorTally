@@ -373,15 +373,38 @@ namespace IngameScript
             {
                 public Component[] components;
 
-                public string GetFullComponentName(string key)
-                {
-                    return "MyObjectBuilder_Component/" + key;
-                }
-
                 public BlockDefinition(Component[] components)
                 {
                     this.components = components;
                 }
+            }
+
+            public string GetFullComponentName(string key)
+            {
+
+                //TODO prolly a proper list of these -.-
+
+                string result = key;
+
+                switch (key)
+                {
+                    case "Construction":
+                    case "Girder":
+                    case "Motor":
+                    case "Computer":
+                    case "Reactor":
+                    case "Thrust":
+                    case "GravityGenerator":
+                    case "Medical":
+                    case "RadioCommunication":
+                    case "Detector":
+                    case "Explosives":
+                        result += "Component";
+                        break;
+                }
+
+                return "MyObjectBuilder_BlueprintDefinition/" + result;
+
             }
 
             public class Component
